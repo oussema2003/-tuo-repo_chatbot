@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chatbot-container {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1000;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        .chat-bot {
+            border: none;
+            border-radius: 10px;
+            display: block;
+            background: #fff;
+        }
+        .chatbot-error {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            height: 430px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .chatbot-error p {
+            color: #ff5733;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .chatbot-error button {
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .chatbot-error button:hover {
+            background-color: #e04a2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test du Chatbot</h1>
+        <p>Cette page teste le chatbot intégré. Le chatbot devrait apparaître en bas à droite de l'écran.</p>
+        <p>Si le chatbot ne se charge pas, un message d'erreur s'affichera avec un bouton pour réessayer.</p>
+        
+        <h2>Instructions de test :</h2>
+        <ul>
+            <li>Vérifiez que le chatbot apparaît en bas à droite</li>
+            <li>Cliquez sur le chatbot pour l'ouvrir</li>
+            <li>Testez une conversation simple</li>
+            <li>Vérifiez la responsivité sur mobile</li>
+        </ul>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container">
+        <iframe 
+            class="chat-bot" 
+            width="350" 
+            height="430" 
+            allow="microphone; camera; geolocation" 
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            src="https://console.dialogflow.com/api-client/demo/embedded/26e44813-1fb1-492f-a8b8-6f745839704e"
+            title="Chatbot Assistant"
+            onerror="showChatbotError()">
+        </iframe>
+        <div id="chatbot-error" class="chatbot-error" style="display: none;">
+            <p>Le chatbot ne peut pas se charger. Veuillez rafraîchir la page ou essayer plus tard.</p>
+            <button onclick="retryChatbot()">Réessayer</button>
+        </div>
+    </div>
+
+    <script>
+        function showChatbotError() {
+            document.getElementById('chatbot-error').style.display = 'block';
+            document.querySelector('.chat-bot').style.display = 'none';
+        }
+        
+        function retryChatbot() {
+            document.getElementById('chatbot-error').style.display = 'none';
+            document.querySelector('.chat-bot').style.display = 'block';
+            document.querySelector('.chat-bot').src = document.querySelector('.chat-bot').src;
+        }
+        
+        // Vérifier si l'iframe se charge correctement
+        window.addEventListener('load', function() {
+            const iframe = document.querySelector('.chat-bot');
+            iframe.addEventListener('load', function() {
+                console.log('Chatbot chargé avec succès');
+            });
+            
+            iframe.addEventListener('error', function() {
+                console.log('Erreur lors du chargement du chatbot');
+                showChatbotError();
+            });
+        });
+    </script>
+</body>
+</html>
